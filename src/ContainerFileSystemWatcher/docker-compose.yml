@@ -1,0 +1,12 @@
+version: '3.4'
+
+services:
+  consolefilesystemwatcher.demo:
+    image: ${DOCKER_REGISTRY-}consolefilesystemwatcherdemo
+    build:
+      context: .
+      dockerfile: ConsoleFileSystemWatcher.Demo/Dockerfile
+    environment:
+      - FOLDER_TO_WATCH=/watch
+    volumes:
+      - /c/temp:/watch

@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "ConsoleFileSystemWatcher.Demo": {
+      "commandName": "Project"
+    },
+    "Container (Dockerfile)": {
+      "commandName": "Docker"
+    }
+  }
+}
