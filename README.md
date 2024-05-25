@@ -36,6 +36,7 @@ internal class Program
     static void Main(string[] args)
     {
         var host = CreateHostBuilder(args).Build();
+        //pull internal folder path from docker-compose (could just hard code to /watch)
         var folderPath = host.Services.GetRequiredService<IConfiguration>()["FOLDER_TO_WATCH"];
         if (string.IsNullOrWhiteSpace(folderPath))
         {
@@ -44,11 +45,13 @@ internal class Program
         }
         var watcher = host.Services.GetRequiredService<IContainerFileWatcher>();
 
-        watcher.OnFileChanged += (path, name) =>
+        //attach this Action to the OnFileChanged event.
+        watcher.OnFileChanged += (fileChangeType, filePathAndName) =>
         {
-            Console.WriteLine($"File changed: {path}/{name}");
+            Console.WriteLine($"File changed: {fileChangeType}/{filePathAndName}");
         };
 
+        //Watch the folderpath and poll it every 500 milliseconds
         watcher.AddWatch(folderPath, TimeSpan.FromMilliseconds(500));
         Console.WriteLine($"Watching {folderPath} for changes.");
         Console.WriteLine();
@@ -59,6 +62,7 @@ internal class Program
         => Host.CreateDefaultBuilder(args)
             .ConfigureServices((hostContext, services) =>
             {
+                //Add ContainerFileWatcher to the IServiceCollection
                 services.AddContainerFileSystemWatcher();
             })
             .ConfigureAppConfiguration((hostingContext, config) =>
@@ -93,7 +97,6 @@ services:
 Environment Variables
 
     WATCH_FOLDERS: Comma-separated list of directories to watch.
-    POLLING_INTERVAL: Polling interval in seconds.
 
 ## License
 
