@@ -12,7 +12,6 @@ internal class Program
     {
         var host = CreateHostBuilder(args).Build();
         var folderPath = host.Services.GetRequiredService<IConfiguration>()["FOLDER_TO_WATCH"];
-        var pollingInterval = host.Services.GetRequiredService<IConfiguration>()["POLLING_INTERVAL"];
         if (string.IsNullOrWhiteSpace(folderPath))
         {
             Console.WriteLine("Please set the FOLDER_TO_WATCH environment variable.");
