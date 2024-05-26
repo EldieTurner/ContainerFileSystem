@@ -96,7 +96,7 @@ services:
 ```
 Environment Variables
 
-    WATCH_FOLDERS: Comma-separated list of directories to watch.
+    WATCH_FOLDERS: Directory inside the container for ContainerFileWatcher to monitor
 
 ### License
 
