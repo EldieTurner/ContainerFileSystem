@@ -1,6 +1,8 @@
 # ContainerFileSystemWatcher
 A custom 'FileSystemWatcher' that works within a container (to monitor a mounted volume)
 
+[![Build Status]()](https://app.travis-ci.com/EldieTurner/ContainerFileSystemWatcher)
+
 ## Installation
 
 You can install the `ContainerFileSystemWatcher` package via NuGet:

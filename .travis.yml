@@ -12,6 +12,7 @@ env:
     - DOTNET_CLI_TELEMETRY_OPTOUT=true
 
 script:
+  - cd src/ContainerFileSystemWatcher/ContainerFileSystemWatcher
   - dotnet restore
   - dotnet build --configuration Release
   - dotnet test --configuration Release
