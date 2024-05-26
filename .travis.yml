@@ -1,26 +1,9 @@
 language: csharp
 mono: none
 dotnet: 5.0
-os:
-  - linux
-  - osx
-  - windows
-
-env:
-  global:
-    - DOTNET_SKIP_FIRST_TIME_EXPERIENCE=true
-    - DOTNET_CLI_TELEMETRY_OPTOUT=true
-
-install:
-  - if [ "$TRAVIS_OS_NAME" = "osx" ]; then brew install --cask dotnet-sdk; fi
-  - if [ "$TRAVIS_OS_NAME" = "linux" ]; then wget https://dot.net/v1/dotnet-install.sh -O dotnet-install.sh; fi
-  - if [ "$TRAVIS_OS_NAME" = "linux" ]; then chmod +x ./dotnet-install.sh; fi
-  - if [ "$TRAVIS_OS_NAME" = "linux" ]; then ./dotnet-install.sh -c 5.0 --install-dir $HOME/dotnet; fi
-  - if [ "$TRAVIS_OS_NAME" = "linux" ]; then export PATH=$PATH:$HOME/dotnet; fi
-  - if [ "$TRAVIS_OS_NAME" = "windows" ]; then choco install dotnetcore-sdk --version 5.0.408; fi
-
 script:
   - cd src/ContainerFileSystemWatcher/ContainerFileSystemWatcher
-  - dotnet restore
-  - dotnet build --configuration Release
-  - dotnet test --configuration Release
+  - dotnet build ContainerFileSystemWatcher.csproj
+  - cd ../ContainerFileSystemWatcherTests
+  - dotnet build ContainerFileSystemWatcherTests.csproj
+  - dotnet test ContainerFileSystemWatcherTests.csproj
