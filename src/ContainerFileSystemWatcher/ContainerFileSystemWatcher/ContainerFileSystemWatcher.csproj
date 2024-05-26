@@ -2,6 +2,16 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Authors>Eldie Turner</Authors>
+    <Company>Dead Simple Solutions llc</Company>
+    <PackageId>ContainerFileSystemWatcher</PackageId>
+    <Version>0.1.1</Version>
+    <Description>A .NET library for watching file system changes in containers.</Description>
+    <PackageTags>filesystem watcher polling container</PackageTags>
+    <RepositoryUrl>https://github.com/EldieTurner/ContainerFileSystemWatcher</RepositoryUrl>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+		<PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
   </PropertyGroup>
 
   <ItemGroup>
@@ -9,5 +19,11 @@
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="8.0.1" />
     <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="8.0.0" />
   </ItemGroup>
-
+	<ItemGroup>
+		<None Include="LICENSE.txt" Pack="true" PackagePath="$(PackageLicenseFile)"/>
+		<None Update="README.md">
+			<Pack>true</Pack>
+			<PackagePath>README.md</PackagePath>
+		</None>
+	</ItemGroup>
 </Project>
