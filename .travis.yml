@@ -1,6 +1,5 @@
 language: csharp
 mono: none
-dotnet: 3.1
 os: linux
 
 env:
@@ -14,10 +13,12 @@ install:
   - ./dotnet-install.sh -c 8.0 --install-dir $HOME/dotnet
   - ./dotnet-install.sh -c 3.1 --install-dir $HOME/dotnet
   - export PATH=$PATH:$HOME/dotnet
+  - export DOTNET_ROOT=$HOME/dotnet
 
 script:
-  - dotnet build src/ContainerFileSystemWatcher/ContainerFileSystemWatcher/ContainerFileSystemWatcher.csproj
-  - dotnet build src/ContainerFileSystemWatcher/ContainerFileSystemWatcherTests/ContainerFileSystemWatcherTests.csproj
-  - dotnet build src/ContainerFileSystemWatcher/ContainerFileSystemWatcher.demo/ContainerFileSystemWatcher.demo.csproj
-  - dotnet build src/ContainerFileSystemWatcher/ContainerFileSystemWatcher.ConsoleApp/ContainerFileSystemWatcher.ConsoleApp.csproj
-  - dotnet test src/ContainerFileSystemWatcher/ContainerFileSystemWatcherTests/ContainerFileSystemWatcherTests.csproj
+  - dotnet --version
+  - dotnet build src/ContainerFileSystemWatcher/ContainerFileSystemWatcher/ContainerFileSystemWatcher.csproj --framework netstandard2.0
+  - dotnet build src/ContainerFileSystemWatcher/ContainerFileSystemWatcherTests/ContainerFileSystemWatcherTests.csproj --framework net8.0
+  - dotnet build src/ContainerFileSystemWatcher/ContainerFileSystemWatcher.demo/ContainerFileSystemWatcher.demo.csproj --framework net8.0
+  - dotnet build src/ContainerFileSystemWatcher/ContainerFileSystemWatcher.ConsoleApp/ContainerFileSystemWatcher.ConsoleApp.csproj --framework net8.0
+  - dotnet test src/ContainerFileSystemWatcher/ContainerFileSystemWatcherTests/ContainerFileSystemWatcherTests.csproj --framework net8.0
