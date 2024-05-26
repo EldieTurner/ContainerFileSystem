@@ -1,5 +1,6 @@
 language: csharp
 mono: none
+dotnet: 3.1
 os:
   - linux
   - osx
@@ -13,13 +14,13 @@ env:
 install:
   - if [ "$TRAVIS_OS_NAME" = "linux" ]; then wget https://dot.net/v1/dotnet-install.sh -O dotnet-install.sh; fi
   - if [ "$TRAVIS_OS_NAME" = "linux" ]; then chmod +x ./dotnet-install.sh; fi
-  - if [ "$TRAVIS_OS_NAME" = "linux" ]; then ./dotnet-install.sh -c 7.0 --install-dir $HOME/dotnet; fi
+  - if [ "$TRAVIS_OS_NAME" = "linux" ]; then ./dotnet-install.sh -c 3.1 --install-dir $HOME/dotnet; fi
   - if [ "$TRAVIS_OS_NAME" = "linux" ]; then export PATH=$PATH:$HOME/dotnet; fi
   - if [ "$TRAVIS_OS_NAME" = "osx" ]; then wget https://dot.net/v1/dotnet-install.sh -O dotnet-install.sh; fi
   - if [ "$TRAVIS_OS_NAME" = "osx" ]; then chmod +x ./dotnet-install.sh; fi
-  - if [ "$TRAVIS_OS_NAME" = "osx" ]; then ./dotnet-install.sh -c 7.0 --install-dir $HOME/dotnet; fi
+  - if [ "$TRAVIS_OS_NAME" = "osx" ]; then ./dotnet-install.sh -c 3.1 --install-dir $HOME/dotnet; fi
   - if [ "$TRAVIS_OS_NAME" = "osx" ]; then export PATH=$PATH:$HOME/dotnet; fi
-  - if [ "$TRAVIS_OS_NAME" = "windows" ]; then choco install dotnetcore-sdk --version 7.0; fi
+  - if [ "$TRAVIS_OS_NAME" = "windows" ]; then choco install dotnetcore-sdk --version 3.1.419; fi
 
 script:
   - cd src/ContainerFileSystemWatcher/ContainerFileSystemWatcher
