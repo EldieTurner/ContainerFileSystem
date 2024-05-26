@@ -1,34 +1,5 @@
 language: csharp
 mono: none
-os:
-  - linux
-  - osx
-  - windows
-
-env:
-  global:
-    - DOTNET_SKIP_FIRST_TIME_EXPERIENCE=true
-    - DOTNET_CLI_TELEMETRY_OPTOUT=true
-
-install:
-  - if [ "$TRAVIS_OS_NAME" = "linux" ]; then wget https://dot.net/v1/dotnet-install.sh -O dotnet-install.sh; fi
-  - if [ "$TRAVIS_OS_NAME" = "linux" ]; then chmod +x ./dotnet-install.sh; fi
-  - if [ "$TRAVIS_OS_NAME" = "linux" ]; then ./dotnet-install.sh -c 8.0 --install-dir $HOME/dotnet; fi
-  - if [ "$TRAVIS_OS_NAME" = "linux" ]; then ./dotnet-install.sh -c 3.1 --install-dir $HOME/dotnet; fi
-  - if [ "$TRAVIS_OS_NAME" = "linux" ]; then export PATH=$PATH:$HOME/dotnet; fi
-  - if [ "$TRAVIS_OS_NAME" = "osx" ]; then wget https://dot.net/v1/dotnet-install.sh -O dotnet-install.sh; fi
-  - if [ "$TRAVIS_OS_NAME" = "osx" ]; then chmod +x ./dotnet-install.sh; fi
-  - if [ "$TRAVIS_OS_NAME" = "osx" ]; then ./dotnet-install.sh -c 8.0 --install-dir $HOME/dotnet; fi
-  - if [ "$TRAVIS_OS_NAME" = "osx" ]; then ./dotnet-install.sh -c 3.1 --install-dir $HOME/dotnet; fi
-  - if [ "$TRAVIS_OS_NAME" = "osx" ]; then export PATH=$PATH:$HOME/dotnet; fi
-  - if [ "$TRAVIS_OS_NAME" = "windows" ]; then choco install dotnetcore-sdk --version 8.0; fi
-  - if [ "$TRAVIS_OS_NAME" = "windows" ]; then choco install dotnetcore-sdk --version 3.1.419; fi
-
+dotnet: 8.0.0
 script:
-  - cd src/ContainerFileSystemWatcher/ContainerFileSystemWatcher
-  - dotnet restore
-  - dotnet build --configuration Release
-  - cd ../ContainerFileSystemWatcherTests
-  - dotnet restore
-  - dotnet build --configuration Release
-  - dotnet test --configuration Release
+ - dotnet build src/ContainerFileSystemWatcher/ContainerFileSystemWatcher.sln
