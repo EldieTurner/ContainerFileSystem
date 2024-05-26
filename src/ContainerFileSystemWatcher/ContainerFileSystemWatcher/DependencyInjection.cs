@@ -6,7 +6,7 @@ namespace ContainerFileSystemWatcher
     {
         public static IServiceCollection AddContainerFileSystemWatcher(this IServiceCollection services)
         {
-            services.AddSingleton<IFileSystem, FileSystem>();
+            services.AddSingleton<IFileSystemShim, FileSystemShim>();
             services.AddSingleton<IContainerFileWatcher, ContainerFileWatcher>();
             return services;
         }

@@ -10,16 +10,13 @@ public class ContainerFileSystemWatcherTests
     public async Task ShouldDetectFileCreation()
     {
         // Arrange
-        var mockFileSystem = new Mock<IFileSystem>();
+        var testFileSystemShim = new TestFileSystemShim();
         var mockLogger = new Mock<ILogger<ContainerFileWatcher>>();
         var tempDir = "/mock/path";
 
-        mockFileSystem.Setup(fs => fs.DirectoryExists(tempDir)).Returns(true);
-        mockFileSystem.SetupSequence(fs => fs.GetDirectorySnapshot(tempDir))
-            .Returns(new Dictionary<string, DateTime>()) // Initial empty state
-            .Returns(new Dictionary<string, DateTime> { { Path.Combine(tempDir, "testfile.txt"), DateTime.Now } }); // State after file creation
+        testFileSystemShim.AddDirectory(tempDir);
 
-        var watcher = new ContainerFileWatcher(mockFileSystem.Object, mockLogger.Object);
+        var watcher = new ContainerFileWatcher(testFileSystemShim, mockLogger.Object);
         watcher.AddWatch(tempDir, TimeSpan.FromMilliseconds(100));
 
         var fileCreated = false;
@@ -33,7 +30,10 @@ public class ContainerFileSystemWatcherTests
         };
 
         // Act
-        await Task.Delay(500); // Wait for the polling interval
+        await Task.Delay(200); // Wait for the first polling interval
+        testFileSystemShim.AddFile(tempDir, "testfile.txt");
+
+        await Task.Delay(200); // Wait for another polling interval
 
         // Assert
         Assert.True(fileCreated);
@@ -43,17 +43,15 @@ public class ContainerFileSystemWatcherTests
     public async Task ShouldDetectFileDeletion()
     {
         // Arrange
-        var mockFileSystem = new Mock<IFileSystem>();
+        var testFileSystemShim = new TestFileSystemShim();
         var mockLogger = new Mock<ILogger<ContainerFileWatcher>>();
         var tempDir = "/mock/path";
         var testFilePath = Path.Combine(tempDir, "testfile.txt");
 
-        mockFileSystem.Setup(fs => fs.DirectoryExists(tempDir)).Returns(true);
-        mockFileSystem.SetupSequence(fs => fs.GetDirectorySnapshot(tempDir))
-            .Returns(new Dictionary<string, DateTime> { { testFilePath, DateTime.Now } }) // Initial state with file
-            .Returns(new Dictionary<string, DateTime>()); // State after file deletion
+        testFileSystemShim.AddDirectory(tempDir);
+        testFileSystemShim.AddFile(tempDir, "testfile.txt");
 
-        var watcher = new ContainerFileWatcher(mockFileSystem.Object, mockLogger.Object);
+        var watcher = new ContainerFileWatcher(testFileSystemShim, mockLogger.Object);
         watcher.AddWatch(tempDir, TimeSpan.FromMilliseconds(100));
 
         var fileDeleted = false;
@@ -67,7 +65,10 @@ public class ContainerFileSystemWatcherTests
         };
 
         // Act
-        await Task.Delay(500); // Wait for the polling interval
+        await Task.Delay(200); // Wait for the first polling interval
+        testFileSystemShim.RemoveFile(tempDir, "testfile.txt");
+
+        await Task.Delay(200); // Wait for another polling interval
 
         // Assert
         Assert.True(fileDeleted);
@@ -77,17 +78,15 @@ public class ContainerFileSystemWatcherTests
     public async Task ShouldDetectFileModification()
     {
         // Arrange
-        var mockFileSystem = new Mock<IFileSystem>();
+        var testFileSystemShim = new TestFileSystemShim();
         var mockLogger = new Mock<ILogger<ContainerFileWatcher>>();
         var tempDir = "/mock/path";
         var testFilePath = Path.Combine(tempDir, "testfile.txt");
 
-        mockFileSystem.Setup(fs => fs.DirectoryExists(tempDir)).Returns(true);
-        mockFileSystem.SetupSequence(fs => fs.GetDirectorySnapshot(tempDir))
-            .Returns(new Dictionary<string, DateTime> { { testFilePath, DateTime.Now } }) // Initial state
-            .Returns(new Dictionary<string, DateTime> { { testFilePath, DateTime.Now.AddMinutes(1) } }); // State after modification
+        testFileSystemShim.AddDirectory(tempDir);
+        testFileSystemShim.AddFile(tempDir, "testfile.txt");
 
-        var watcher = new ContainerFileWatcher(mockFileSystem.Object, mockLogger.Object);
+        var watcher = new ContainerFileWatcher(testFileSystemShim, mockLogger.Object);
         watcher.AddWatch(tempDir, TimeSpan.FromMilliseconds(100));
 
         var fileModified = false;
@@ -101,7 +100,10 @@ public class ContainerFileSystemWatcherTests
         };
 
         // Act
-        await Task.Delay(500); // Wait for the polling interval
+        await Task.Delay(200); // Wait for the first polling interval
+        testFileSystemShim.ModifyFile(tempDir, "testfile.txt");
+
+        await Task.Delay(200); // Wait for another polling interval
 
         // Assert
         Assert.True(fileModified);

@@ -18,10 +18,10 @@ internal class Program
             return;
         }
         var watcher = host.Services.GetRequiredService<IContainerFileWatcher>();
-
-        watcher.OnFileChanged += (path, name) =>
+        watcher.EnableLogging = false;
+        watcher.OnFileChanged += (changeType, filePath) =>
         {
-            Console.WriteLine($"File changed: {path}/{name}");
+            Console.WriteLine($"File changed: {changeType}/{filePath}");
         };
 
         watcher.AddWatch(folderPath, TimeSpan.FromMilliseconds(500));

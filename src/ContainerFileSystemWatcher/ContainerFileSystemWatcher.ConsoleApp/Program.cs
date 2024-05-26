@@ -24,6 +24,7 @@ internal class Program
             Console.WriteLine($"File changed: {path}/{name}");
         };
 
+        watcher.EnableLogging = false;
         watcher.AddWatch(folderPath, TimeSpan.FromMilliseconds(500));
         Console.WriteLine($"Watching {folderPath} for changes.");
         Console.WriteLine();

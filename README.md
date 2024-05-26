@@ -79,7 +79,7 @@ internal class Program
 
 ```
 
-## Docker Setup
+### Docker Setup
 
 You can configure the directories to watch and the polling interval via the docker-compose file.
 docker-compose.yml
@@ -98,6 +98,6 @@ Environment Variables
 
     WATCH_FOLDERS: Comma-separated list of directories to watch.
 
-## License
+### License
 
 This project is licensed under the MIT License. See the LICENSE file for more information.

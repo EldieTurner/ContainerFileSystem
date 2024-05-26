@@ -1,8 +1,10 @@
-﻿namespace ContainerFileSystemWatcher;
-
-public enum ChangeType
+﻿namespace ContainerFileSystemWatcher
 {
-    Created,
-    Deleted,
-    Modified
+
+    public enum ChangeType
+    {
+        Created,
+        Deleted,
+        Modified
+    }
 }

@@ -1,9 +1,12 @@
 ﻿
+using System;
+
 namespace ContainerFileSystemWatcher
 {
     public interface IContainerFileWatcher
     {
-        event Action<ChangeType, string>? OnFileChanged;
+        bool EnableLogging { get; set; }
+        event Action<ChangeType, string> OnFileChanged;
         void AddWatch(string path, TimeSpan pollingInterval);
         void RemoveWatch(string path);
     }
