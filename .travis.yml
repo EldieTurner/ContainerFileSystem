@@ -1,5 +1,5 @@
 language: csharp
 mono: none
-dotnet: 8.0.0
+dotnet: 2.0.0
 script:
- - dotnet build src/ContainerFileSystemWatcher/ContainerFileSystemWatcher.sln
+ - dotnet build src/ContainerFileSystemWatcher/ContainerFileSystemWatcher/ContainerFileSystemWatcher.csproj

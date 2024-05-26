@@ -1,5 +1,5 @@
 # ContainerFileSystemWatcher
-[![Build Status](https://travis-ci.org/EldieTurner/ContainerFileSystemWatcher.svg?branch=master)](https://travis-ci.org/EldieTurner/ContainerFileSystemWatcher)
+[![Build Status](https://travis-ci.org/EldieTurner/ContainerFileSystemWatcher.svg?branch=main)](https://travis-ci.org/EldieTurner/ContainerFileSystemWatcher)
 
 A custom 'FileSystemWatcher' that works within a container (to monitor a mounted volume)
 
