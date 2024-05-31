@@ -8,7 +8,10 @@ using System.Threading.Tasks;
 
 namespace ContainerFileSystemWatcher
 {
-    public class ContainerFileWatcher : IContainerFileWatcher
+    /// <summary>
+    /// Implements the <see cref="IContainerFileWatcher"/> interface to watch directories for file changes.
+    /// </summary>
+    public class ContainerFileWatcher : IContainerFileWatcher, IDisposable
     {
         private readonly IFileSystemShim _fileSystem;
         private readonly ILogger<ContainerFileWatcher> _logger;
@@ -17,9 +20,21 @@ namespace ContainerFileSystemWatcher
         private readonly Dictionary<string, WatchDirectory> _watchDirectories;
         private readonly object _lock = new object();
 
-        public bool EnableLogging { get; set; } = true;
+        /// <summary>
+        /// Gets or sets a value indicating whether to enable logging.
+        /// </summary>
+        public bool EnableLogging { get; set; } = false;
+
+        /// <summary>
+        /// Occurs when a file in a watched directory changes.
+        /// </summary>
         public event Action<ChangeType, string> OnFileChanged;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ContainerFileWatcher"/> class.
+        /// </summary>
+        /// <param name="fileSystem">The file system shim to use for file system operations.</param>
+        /// <param name="logger">The logger to use for logging.</param>
         public ContainerFileWatcher(IFileSystemShim fileSystem, ILogger<ContainerFileWatcher> logger = null)
         {
             _fileSystem = fileSystem ?? throw new ArgumentNullException(nameof(fileSystem));
@@ -29,6 +44,10 @@ namespace ContainerFileSystemWatcher
             _pollingTask = Task.Run(() => PollDirectories(_cancellationTokenSource.Token));
         }
 
+        /// <summary>
+        /// Creates a default logger if none is provided.
+        /// </summary>
+        /// <returns>A logger instance.</returns>
         protected ILogger<ContainerFileWatcher> CreateDefaultLogger()
         {
             using (var loggerFactory = LoggerFactory.Create(builder =>
@@ -41,6 +60,11 @@ namespace ContainerFileSystemWatcher
             }
         }
 
+        /// <summary>
+        /// Adds a directory to the watch list with the specified polling interval.
+        /// </summary>
+        /// <param name="path">The path of the directory to watch.</param>
+        /// <param name="pollingInterval">The interval at which to poll the directory for changes.</param>
         public void AddWatch(string path, TimeSpan pollingInterval)
         {
             if (string.IsNullOrEmpty(path)) throw new ArgumentNullException(nameof(path));
@@ -57,6 +81,10 @@ namespace ContainerFileSystemWatcher
             if (EnableLogging) _logger.LogInformation($"Added watch for {path} with polling interval {pollingInterval.TotalMilliseconds} ms");
         }
 
+        /// <summary>
+        /// Removes a directory from the watch list.
+        /// </summary>
+        /// <param name="path">The path of the directory to remove from the watch list.</param>
         public void RemoveWatch(string path)
         {
             if (string.IsNullOrEmpty(path)) throw new ArgumentNullException(nameof(path));
@@ -69,6 +97,10 @@ namespace ContainerFileSystemWatcher
             if (EnableLogging) _logger.LogInformation($"Removed watch for {path}");
         }
 
+        /// <summary>
+        /// Polls the directories for changes at the specified intervals.
+        /// </summary>
+        /// <param name="cancellationToken">The cancellation token to cancel the polling.</param>
         protected async Task PollDirectories(CancellationToken cancellationToken)
         {
             while (!cancellationToken.IsCancellationRequested)
@@ -127,6 +159,9 @@ namespace ContainerFileSystemWatcher
             }
         }
 
+        /// <summary>
+        /// Disposes the resources used by the <see cref="ContainerFileWatcher"/> class.
+        /// </summary>
         public void Dispose()
         {
             _cancellationTokenSource.Cancel();
@@ -134,4 +169,5 @@ namespace ContainerFileSystemWatcher
             _cancellationTokenSource.Dispose();
         }
     }
+
 }
