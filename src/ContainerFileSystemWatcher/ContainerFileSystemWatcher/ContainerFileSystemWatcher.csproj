@@ -6,7 +6,7 @@
     <Authors>Eldie Turner</Authors>
     <Company>Dead Simple Solutions llc</Company>
     <PackageId>ContainerFileSystemWatcher</PackageId>
-    <Version>0.1.1</Version>
+    <Version>0.1.2</Version>
     <Description>A .NET library for watching file system changes in containers.</Description>
     <PackageTags>filesystem watcher polling container</PackageTags>
     <RepositoryUrl>https://github.com/EldieTurner/ContainerFileSystemWatcher</RepositoryUrl>
