@@ -22,10 +22,10 @@ jobs:
         dotnet-version: '8.0.x'  # Setup .NET 8.0 SDK
 
     - name: Install dependencies
-      run: dotnet restore
+      run: dotnet restore src/ContainerFileSystemWatcher/ContainerFileSystemWatcher.sln
 
     - name: Build solution
-      run: dotnet build --no-restore --configuration Release
+      run: dotnet build src/ContainerFileSystemWatcher/ContainerFileSystemWatcher.sln --no-restore --configuration Release
 
     - name: Run unit tests
-      run: dotnet test --no-build --configuration Release --verbosity normal
+      run: dotnet test src/ContainerFileSystemWatcher/ContainerFileSystemWatcherTests/ContainerFileSystemWatcherTests.csproj --no-build --configuration Release --verbosity normal
