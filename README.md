@@ -1,5 +1,5 @@
 # ContainerFileSystemWatcher
-[![Build Status](https://travis-ci.org/EldieTurner/ContainerFileSystemWatcher.svg?branch=main)](https://travis-ci.org/EldieTurner/ContainerFileSystemWatcher)
+[![.NET Core CI](https://github.com/EldieTurner/ContainerFileSystemWatcher/actions/workflows/default.yaml/badge.svg)](https://github.com/EldieTurner/ContainerFileSystemWatcher/actions/workflows/default.yaml)
 
 A custom 'FileSystemWatcher' that works within a container (to monitor a mounted volume)
 
