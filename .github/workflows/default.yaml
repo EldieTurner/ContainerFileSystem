@@ -1,0 +1,31 @@
+name: .NET Core CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Check out repository code
+      uses: actions/checkout@v2
+
+    - name: Set up .NET
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: '8.0.x'  # Setup .NET 8.0 SDK
+
+    - name: Install dependencies
+      run: dotnet restore
+
+    - name: Build solution
+      run: dotnet build --no-restore --configuration Release
+
+    - name: Run unit tests
+      run: dotnet test --no-build --configuration Release --verbosity normal
